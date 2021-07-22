@@ -93,5 +93,17 @@ qSelector('.pizzaInfo--addButton').addEventListener('click', () => {
         });
     }
 
+    updateCart();
     closeWindow();
 });
+
+function updateCart() {
+    if (cart.length > 0) {
+        qSelector('aside').classList.add('show');
+        for (let i in cart) {
+            let pizzaItem = pizzaJson.find((item) => item.id === cart[i].id);
+        }
+    } else {
+        qSelector('aside').classList.remove('show');
+    }
+}
