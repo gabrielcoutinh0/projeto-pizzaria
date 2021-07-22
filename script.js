@@ -79,11 +79,19 @@ qSelectorAll('.pizzaInfo--size').forEach((size, sizeIndex) => {
 qSelector('.pizzaInfo--addButton').addEventListener('click', () => {
     let sizePizza = parseInt(qSelector('.pizzaInfo--size.selected').getAttribute('data-key'));
 
-    cart.push({
-        id: pizzaJson[infoPizza].id,
-        tamanho: sizePizza,
-        qntd: qntdPizza
-    });
+    let identifier = pizzaJson[infoPizza].id + '@' + sizePizza;
+    let index = cart.findIndex((item) => item.identifier === identifier);
+
+    if (index > -1) {
+        cart[index].qntd += qntdPizza;
+    } else {
+        cart.push({
+            identifier,
+            id: pizzaJson[infoPizza].id,
+            tamanho: sizePizza,
+            qntd: qntdPizza
+        });
+    }
 
     closeWindow();
 });
