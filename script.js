@@ -52,3 +52,23 @@ function closeWindow() {
 qSelectorAll('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) => {
     item.addEventListener('click', closeWindow);
 });
+
+qSelector('.pizzaInfo--qtmenos').addEventListener('click', () => {
+    if (qntdPizza > 1) {
+        qntdPizza--;
+        qSelector('.pizzaInfo--qt').innerHTML = qntdPizza;
+    } else
+        closeWindow();
+});
+
+qSelector('.pizzaInfo--qtmais').addEventListener('click', () => {
+    qntdPizza++;
+    qSelector('.pizzaInfo--qt').innerHTML = qntdPizza;
+});
+
+qSelectorAll('.pizzaInfo--size').forEach((size, sizeIndex) => {
+    size.addEventListener('click', (e) => {
+        qSelector('.pizzaInfo--size.selected').classList.remove('selected');
+        size.classList.add('selected');
+    });
+});
