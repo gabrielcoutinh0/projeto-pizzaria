@@ -1,4 +1,6 @@
+let cart = [];
 let qntdPizza = 1;
+let infoPizza = 0;
 
 const qSelector = (element) => document.querySelector(element);
 const qSelectorAll = (element) => document.querySelectorAll(element);
@@ -16,6 +18,7 @@ pizzaJson.map((item, index) => {
 
         let key = e.target.closest('.pizza-item').getAttribute('data-key');
         qntdPizza = 1;
+        infoPizza = key;
 
         qSelector('.pizzaBig img').src = pizzaJson[key].img;
         qSelector('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
@@ -71,4 +74,16 @@ qSelectorAll('.pizzaInfo--size').forEach((size, sizeIndex) => {
         qSelector('.pizzaInfo--size.selected').classList.remove('selected');
         size.classList.add('selected');
     });
+});
+
+qSelector('.pizzaInfo--addButton').addEventListener('click', () => {
+    let sizePizza = parseInt(qSelector('.pizzaInfo--size.selected').getAttribute('data-key'));
+
+    cart.push({
+        id: pizzaJson[infoPizza].id,
+        tamanho: sizePizza,
+        qntd: qntdPizza
+    });
+
+    closeWindow();
 });
