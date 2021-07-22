@@ -1,3 +1,5 @@
+let qntdPizza = 1;
+
 const qSelector = (element) => document.querySelector(element);
 const qSelectorAll = (element) => document.querySelectorAll(element);
 
@@ -13,6 +15,7 @@ pizzaJson.map((item, index) => {
         e.preventDefault();
 
         let key = e.target.closest('.pizza-item').getAttribute('data-key');
+        qntdPizza = 1;
 
         qSelector('.pizzaBig img').src = pizzaJson[key].img;
         qSelector('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
@@ -27,6 +30,8 @@ pizzaJson.map((item, index) => {
             size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
         });
 
+        qSelector('.pizzaInfo--qt').innerHTML = qntdPizza;
+
         qSelector('.pizzaWindowArea').style.opacity = 0;
         qSelector('.pizzaWindowArea').style.display = 'flex';
         setTimeout(() => {
@@ -35,4 +40,15 @@ pizzaJson.map((item, index) => {
     });
 
     qSelector('.pizza-area').append(pizzaItem);
+});
+
+function closeWindow() {
+    qSelector('.pizzaWindowArea').style.opacity = 0;
+    setTimeout(() => {
+        qSelector('.pizzaWindowArea').style.display = 'none';
+    }, 500);
+}
+
+qSelectorAll('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) => {
+    item.addEventListener('click', closeWindow);
 });
