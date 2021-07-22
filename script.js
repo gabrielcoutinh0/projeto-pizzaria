@@ -102,8 +102,13 @@ function updateCart() {
         qSelector('aside').classList.add('show');
         qSelector('.cart').innerHTML = '';
 
+        let subTotal = 0;
+        let discount = 0;
+        let total = 0;
+
         for (let i in cart) {
             let pizzaItem = pizzaJson.find((item) => item.id === cart[i].id);
+            subTotal += pizzaItem.price * cart[i].qntd;
             let cartItem = qSelector('.models .cart--item').cloneNode(true);
 
             let pizzaSizeName;
@@ -123,10 +128,29 @@ function updateCart() {
             cartItem.querySelector('img').src = pizzaItem.img;
             cartItem.querySelector('.cart--item-nome').innerHTML = pizzaName;
             cartItem.querySelector('.cart--item--qt').innerHTML = cart[i].qntd;
+            cartItem.querySelector('.cart--item-qtmenos').addEventListener('click', () => {
+                if (cart[i].qntd > 1) {
+                    cart[i].qntd--;
+                    updateCart();
+                } else
+                    cart.splice(i, 1);
+                updateCart();
+            });
+
+            cartItem.querySelector('.cart--item-qtmais').addEventListener('click', () => {
+                cart[i].qntd++;
+                updateCart();
+            });
 
             qSelector('.cart').append(cartItem);
         }
 
+        discount = subTotal * 0.1;
+        total = subTotal - discount;
+
+        qSelector('.subtotal span:last-child').innerHTML = `R$ ${subTotal.toFixed(2)}`;
+        qSelector('.desconto span:last-child').innerHTML = `R$ ${discount.toFixed(2)}`;
+        qSelector('.total span:last-child').innerHTML = `R$ ${total.toFixed(2)}`;
     } else {
         qSelector('aside').classList.remove('show');
     }
